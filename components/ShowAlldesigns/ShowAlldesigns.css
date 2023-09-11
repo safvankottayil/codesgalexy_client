@@ -1,0 +1,19 @@
+@media (max-width:1080px) {
+    .sidebar{
+        width: 200px !important;
+    }
+}
+@media (max-width:950px) {
+    .sidebar{
+        display: none;
+    }
+    .menubtn{
+        display: block !important;
+    }
+}
+.sidebar{
+    width: 250px;
+}
+.menubtn{
+    display: none;
+}
