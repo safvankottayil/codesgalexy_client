@@ -1,2 +1,2 @@
-export const userUrl='http://20.39.192.152/'
-export const adminUrl='http://20.39.192.152/admin'
+export const userUrl='https://api.codesgalaxy.cloud/'
+export const adminUrl='https://api.codesgalaxy.cloud/admin'
