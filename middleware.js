@@ -22,10 +22,10 @@ const response=await fetch(userUrl+'/Auth',{method:'GET',headers:{
 const res=await response.json()
 if(res.status){
 }else{
-    return NextResponse.redirect('http://localhost:3000?login='+true)
+    return NextResponse.redirect('https://codesgalaxy.cloud?login='+true)
 }
 }else{
-    return NextResponse.redirect('http://localhost:3000?login='+true)
+    return NextResponse.redirect('https://codesgalaxy.cloud?login='+true)
 }
 }catch(err){
     console.log(err,12);
