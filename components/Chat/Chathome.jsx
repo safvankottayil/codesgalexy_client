@@ -46,15 +46,7 @@ function Chathome() {
 
   useEffect(() => {
     if (UserId) {
-      const newSocket = io("https://codesgalaxy.cloud/chat",{
-        reconnectionDelay: 1000,
-        reconnection: true,
-        reconnectionAttemps: 10,
-        transports: ['websocket'],
-        agent: false,
-        upgrade: false,
-        rejectUnauthorized: false
-      });
+      const newSocket = io("https://api.codesgalaxy.cloud/chat");
       
       Setsocket(newSocket);
       return () => {
