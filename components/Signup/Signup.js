@@ -9,6 +9,7 @@ import {LoginShow,SignUpShow} from '@/Redux/client'
 import 'react-toastify/dist/ReactToastify.css';
 import Link from 'next/link'
 import { useDispatch, useSelector } from 'react-redux'
+import { XMarkIcon } from '@heroicons/react/24/outline'
 
 function Signup(props) {
     const dispatch=useDispatch()
