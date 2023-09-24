@@ -52,11 +52,11 @@ async function CommunityHome() {
           
           <div className=" flex py-2 border-b-[0.1px]  border-slate-300 flex-col ">
             <div className=" flex">
-              <div className="sm:flex pl-4 hidden   text-end sm:pl-8  sm:flex-col">
+              {/* <div className="sm:flex pl-4 hidden   text-end sm:pl-8  sm:flex-col">
                 <p className="whitespace-nowrap">15 votes</p>
                 <p className="whitespace-nowrap">3 answers</p>
                 <p className="whitespace-nowrap">15 saved</p>
-              </div>
+              </div> */}
               <div className=" pl-4 sm:mx-1 sm:mr-4 flex flex-col  font-semibold">
                 <p className="  text-justify min-w-0 max-h-10 pb-1  text-lg overflow-hidden text-blue-700 pr-8 leading-5 ">
                  <Link href={`/community/question/${value._id}`}>{value.title}</Link>
