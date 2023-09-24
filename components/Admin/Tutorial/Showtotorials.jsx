@@ -4,16 +4,19 @@ import AdminAxios from '@/Axios/Admin'
 import { useRouter } from "next/navigation";
 import { Link } from "next13-progressbar";
 import Cookies from "js-cookie";
+import Loader from 'react-spinners/MoonLoader'
 function Showtotorials() {
+  const [isLoder,setLoder]=useState(false)
   const token=Cookies.get('Admintoken')
     const router=useRouter()
     const [tutorials,SetTutorials]=useState([])
     const [count,Setcount]=useState(0)
     useEffect(()=>{
+      setLoder(true)
     AdminAxios.get('/tutorials',{headers:{Authorization:token}}).then((res)=>{
       if(res.data.status){
-        console.log(res.data);
         SetTutorials(res.data.Tutorials)
+        setLoder(false)
       }else{
        if(res.data.type=='admin'){
         router.push('/admin/login')
@@ -46,6 +49,7 @@ function Showtotorials() {
               <th className="text-left pl-5">VERIFY ALL PAGES</th>
               <th className="text-left pl-5">VIEW PAGES</th>
             </tr>
+            {tutorials[0]?<>
             {tutorials.map((data, index) => {
               
                         return (
@@ -100,7 +104,9 @@ function Showtotorials() {
                                 </tr>
                             </>
                         )
-                    })}
+                    })} </>:isLoder? 
+                   <tr> <td colSpan={6}> <div className="flex flex-grow pt-40 justify-center"><Loader color="white"/></div></td></tr>
+                    :''}
           </table>
         </div>
       </div>

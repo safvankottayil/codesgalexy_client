@@ -9,8 +9,7 @@ import Link from 'next/link'
 function AdminLogin() {
     const router=useRouter()
     const Admintoken=Cookies.get('Admintoken')
-
-  
+    
     const email = useRef(null)
     const password2 = useRef(null)
     const emailErr = useRef(null)
@@ -51,6 +50,7 @@ function AdminLogin() {
             recivevalue()
                 async function recivevalue(){
                 const res=await adminAxios.post('/login', { password: password2.current.value, email: email.current.value })
+                console.log(res.data);
                 if (res.data.status) {
                   Cookies.set('Admintoken',res.data.token,{expires:2})
                     router.push('/admin')

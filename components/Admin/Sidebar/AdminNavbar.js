@@ -5,9 +5,9 @@ import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation'
 function AdminNavbar() {
   const router =useRouter()
-  const adminToken=Cookies.get('AdminToken')
+  
   useEffect(()=>{
-    const adminToken=Cookies.get('AdminToken')
+    const adminToken=Cookies.get('Admintoken')
     if(adminToken){
       AdminAxios.get('/adminAuth',{headers:{Authorization:adminToken}}).then((res)=>{
         if(res.data.status==false){
@@ -16,8 +16,6 @@ function AdminNavbar() {
           }
         }
        })
-    }else{
-      router.push('/admin/login')
     }
 
   },[])

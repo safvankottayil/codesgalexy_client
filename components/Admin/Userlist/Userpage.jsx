@@ -3,19 +3,21 @@ import React, { useEffect, useRef, useState } from 'react'
 import AdminAxios from '@/Axios/Admin'
 import { useRouter } from 'next/navigation'
 import Cookies from 'js-cookie'
-
+import Loader from 'react-spinners/MoonLoader'
 function Userpage() {
     const router=useRouter()
     const [users, SetUsers] = useState([])
     const [count, SetCount] = useState(0)
     const search=useRef(null)
+    const [isLoader,setLoader]=useState(false)
     const token=Cookies.get('Admintoken')
     useEffect(() => {
+        setLoader(true)
         AdminAxios.get('/users',{headers:{Authorization:token}}).then((res) => {
             console.log(res.data);
             if (res.data.status) {
                 SetUsers(res.data.Users)
-
+                setLoader(false)
             }else{
                 if(res.data.type=='admin'){
                     router.push('/admin/login')
@@ -69,6 +71,8 @@ function Userpage() {
 
                         </th>
                     </tr>
+                    {users[0]?
+                    <>
                     {users.map((user, index) => {
                         return (
                             <>
@@ -121,7 +125,9 @@ function Userpage() {
                                 </tr>
                             </>
                         )
-                    })}
+                    })}</>:isLoader? 
+                    <tr> <td colSpan={6}> <div className="flex flex-grow pt-40 justify-center"><Loader color="white"/></div></td></tr>
+                     :''}
 
                 </table>
             </div>
