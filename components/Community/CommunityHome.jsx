@@ -47,6 +47,12 @@ async function CommunityHome() {
           </div>
           {/*  */}
           {questions.map((value)=>{
+            console.log(1111);
+            const timestamp=new Date(value.timestamp)+''
+            const date=timestamp.slice(3,15)
+            const time=timestamp.slice(16,21)
+           console.log(value.UserId);
+           
             return(
 
           
@@ -70,12 +76,12 @@ async function CommunityHome() {
                  
                 </div>
                 <div className="flex mr-6  items-center">
-                  <div className=" bg-black rounded-md h-5 w-5"></div>
+                  {value.UserId?.image?<img src={value.UserId?.image} className="rounded-md h-5 w-5" alt="" />: <div className=" bg-black rounded-md h-5 w-5"></div>}
                   <div className="flex h-10 pl-1 overflow-hidden relative text-xs flex-col">
-                    <span className="absolute top-1">safavn</span>
-                    <span className=" font-light pt-4 ">kottayilsafvan@gmail.com</span>
+                    <span className="absolute top-1">{value.UserId?.name}</span>
+                    <span className=" font-light pt-4 ">{value.UserId?.email}</span>
                   </div>
-                  <div className="flex font-light text-xs pt-2 items-end whitespace-nowrap overflow-hidden "> <p className="px-1 font-semibold"> asked</p> <p className="">Jul 31, 2008 at 22:08</p></div>
+                  <div className="flex font-light text-xs pt-2 items-end whitespace-nowrap overflow-hidden "> <p className="px-1 font-semibold"> asked</p> <p className="">{date} at {time}</p></div>
                 </div>
               </div>
             </div>
