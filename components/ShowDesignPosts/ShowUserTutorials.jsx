@@ -5,6 +5,7 @@ import UserAxios from "@/Axios/client";
 import { useEffect } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { Link } from "next13-progressbar";
+import Loader from 'react-spinners/MoonLoader'
 import ShowTutorialManagement from "./ShowTutorialManagement";
 import { useRouter } from "next/navigation";
 import { MdStar } from "react-icons/md";
@@ -13,12 +14,15 @@ function ShowUserTutorials() {
   const token = Cookies.get("token");
   const router=useRouter()
   const [Tutorials, SetTutorials] = useState([]);
+  const [isLoader,setLoader]=useState(false)
   useEffect(() => {
+    setLoader(true)
     UserAxios.get("/profile/tutorials", {
       headers: { Authorization: token },
     }).then((res) => {
       if (res.data.status) {
         SetTutorials(res.data.Tutorials);
+        setLoader(false)
       } else {
         if (res.data.type == "block") {
           Cookies.remove("token");
@@ -32,7 +36,12 @@ function ShowUserTutorials() {
     });
   }, [count]);
   return (
-    <div style={{marginLeft:'192px'}} className="grid  mr-5 md:mx-10 lg:mx-40 md:grid-cols-2 lg:grid-cols-3 pl-3 gap-5 mt-3">
+    <>
+    {isLoader?
+    <div className="flex w-full flex-grow justify-center pt-40">
+      <Loader/>
+    </div>:
+    <div style={{marginLeft:'172px'}} className="grid  mr-5 md:mx-10 lg:mx-0 md:grid-cols-2 lg:grid-cols-3 pl-3 gap-5 mt-3">
       {Tutorials.map((tuto) => {
         return (
           <div className="relative shadow-md shadow-slate-700 rounded-xl">
@@ -73,8 +82,8 @@ function ShowUserTutorials() {
           </div>
         );
       })}
-    </div>
-  );
+    </div>}
+    </>);
 }
 
 export default ShowUserTutorials;

@@ -9,16 +9,19 @@ import Link from 'next/link'
 import DesignLike from '@/components/DesignLike/DesignLike'
 import DesignSaved from '@/components/DesignLike/DesignSaved'
 import { useRouter } from 'next/navigation'
+import Loader from 'react-spinners/MoonLoader'
 function ShowDesignsaved() {
     const router=useRouter()
+    const [isLoader,setLoader]=useState(false)
     const dispatch=useDispatch()
     const token=Cookies.get('token')
     const [Design,SetDesign]=useState([])
         useEffect(() => {
+            setLoader(true)
             UserAxios.get('/profile/saved',{headers:{Authorization:token}}).then((res) => {
                 if (res.data.status) {
                     SetDesign(res.data.Designs)
-                    console.log(res.data.Designs);
+                    setLoader(false)
                 } else {
                     if (res.data.type == "block") {
                       Cookies.remove("token");
@@ -37,6 +40,13 @@ function ShowDesignsaved() {
     }
     return (
         <div className='w-full mt-5 gap-3 flex justify-center mb-2'>
+               
+        {
+        isLoader?
+       <div className="flex flex-grow justify-center pt-20">    <Loader/></div>
+     
+      
+     :
             <div className='w-full xl:w-4/5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 '>
                 {Design ? Design.map((Data) => {
                     const HTMLcode=Htmlconverter(Data.design.html,Data.design.css,Data.design.js)
@@ -74,7 +84,7 @@ function ShowDesignsaved() {
 
 
 
-            </div>
+            </div>}
         </div>
     )
 }
