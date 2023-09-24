@@ -2,15 +2,19 @@
 import React, { useRef, useState } from "react";
 import UserAxios from "@/Axios/client";
 import Link from "next/link";
+import Loader from 'react-spinners/MoonLoader'
 function CommunitySearch() {
   const SearchRef = useRef(null);
+  const [isLoader,setLoader]=useState(false)
   const [show,setshow]=useState(false)
   const [questions, Setquestions] = useState([]);
   function communtySearch() {
+    setLoader(true)
     const char = SearchRef.current.value;
     UserAxios.get("/community/search?char=" + char).then((res) => {
       if (res.data.status) {
         Setquestions(res.data.questions);
+        setLoader(false)
       }
     });
   }
@@ -19,15 +23,16 @@ function CommunitySearch() {
       className="flex relative flex-col items-center pb-3 md:pb-0"
       action=""
     >
+      <div className="flex relative">
       <input
-      onBlur={()=>setshow(false)}
-      onFocus={()=>setshow(true)}
+        onBlur={()=>setshow(false)}
+        onFocus={()=>setshow(true)}
         onChange={communtySearch}
         ref={SearchRef}
         type="text"
         className="w-5/6 md:w-96 pl-3 h-10 rounded-md "
         placeholder="Srearch"
-      />
+      />{isLoader?<Loader  size={25}  className=" absolute right-9 top-1"/>:''}</div>
       {show?
       <div className="w-full top-11 left-1 z-10 rounded-md md:w-[700px] max-h-96 overflow-hidden  absolute bg-emerald-200">
         {questions.map((value) => {

@@ -5,6 +5,7 @@ import UserAxios from '../../Axios/client'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { useDispatch, useSelector } from 'react-redux'
+import Loader from 'react-spinners/MoonLoader'
 import { UserLogin, SetUserId, Setimage ,LoginShow,SignUpShow} from '../../Redux/client'
 import GoogleLogin from '../Googlelogin/GoogleLogin'
 import toast from '../Toast/index'
@@ -19,31 +20,38 @@ function Login(props) {
     const Erremail = useRef(null), Errpassword = useRef(null)
     const [emailErr, setEmailerr] = useState(0)
     const [PasswordErr, setpasswordErr] = useState(0)
+    const [isloader,setLoder]=useState(false)
     const dispatch = useDispatch();
     const [Forgot,SetForgot]=useState(false)
     const { fun, value,Signup } = props
 
     const submitForm = (e) => {
         e.preventDefault()
+        setLoder(true)
         const flag = Validater([1, 2])
         if (flag) {
             UserAxios.post('/login', { email, password }).then((res) => {
                 if (res.data.type == 'email') {
                     setEmailerr(1)
                     Erremail.current.textContent = 'Email alredy exist'
+                    setLoder(false)
                 } else if (res.data.type == 'password') {
                     setpasswordErr(1)
                     Errpassword.current.textContent = 'Password not match'
+                    setLoder(false)
                 }
                 else if (res.data.status) {
                     Cookies.set('token',res.data.token,{expires: 2})
                     dispatch(Setimage({ image: res.data.image }))
                     dispatch(SetUserId({ UserId: res.data.id }))
                     Toast('success', 'Login successfully fished')
+                    setLoder(false)
                     dispatch(LoginShow(false))
                    
                 }
             })
+        }else{
+            setLoder(false)
         }
     }
     const Validater = (num) => {
@@ -114,7 +122,7 @@ function Login(props) {
                         </div>
                        
                         <div className='flex justify-center mt-4'>
-                            <button className='shadow-sm shadow-black  bg-blue-800 text-white text-lg  w-4/5 h-10 rounded-lg'>Submit</button>
+                            <button className='shadow-sm shadow-black flex justify-center items-center bg-emerald-600 text-white text-lg  w-4/5 h-10 rounded-lg'>{isloader?<Loader size={25} />:'Submit'}</button>
                         </div>
                         <div className='flex w-full justify-center pt-4 mb-8'>
                             <span className='text-sm'> Don’t have an account yet?<span onClick={()=>{ dispatch(LoginShow(false)),dispatch(SignUpShow(false))}} className='text-blue-700 hover:underline text-sm font-bold'> Sign up</span></span>

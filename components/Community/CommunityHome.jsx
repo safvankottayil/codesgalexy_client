@@ -4,7 +4,7 @@ import {userUrl} from'@/url'
 import './style.css'
 import Sidebar from "@/components/Community/Sidebar";
 import ShowTage from '@/components/Community/ShowTags'
-import CommunitySearch from "./CommunitySearch";
+import CommunitySearch from "@/components/Community/CommunitySearch";
 async function GetData(){
  const res=await fetch(`${userUrl}/community`,{next:{revalidate:10}})
  return res.json()

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import UserAxios from "@/Axios/client";
 import { BsFillSendFill, BsSearch } from "react-icons/bs";
-
+import Loader from 'react-spinners/MoonLoader'
 import Cookies from "js-cookie";
 import "./style.css";
 import { useRef } from "react";
@@ -17,6 +17,8 @@ function Chathome() {
   const [UserId, SetuserID] = useState("");
   const [myId, setMyId] = useState("");
   const [User, SetUser] = useState({});
+  const [isLoader,setLoader]=useState(false)
+  const [chatLoader,setChatLoader]=useState(false)
   const [users, setusers] = useState([]);
   const [socket, Setsocket] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -30,11 +32,13 @@ function Chathome() {
     }
   }, [messages]);
   useEffect(() => {
+    setLoader(true)
     UserAxios.get("/chat/users", { headers: { Authorization: token } }).then(
       (res) => {
         if (res.data.status) {
           setusers(res.data.Users);
           setMyId(res.data.UserID);
+          setLoader(false)
         }else{
           if(res.data.type=='user'){
             router.push('/?login=true')
@@ -59,12 +63,14 @@ function Chathome() {
   useEffect(() => {
     if (socket) {
       let roomid;
+      setChatLoader(true)
       UserAxios.get("/chat?id=" + UserId, {
         headers: { Authorization: token },
       }).then((res) => {
         if (res.data.status) {
           setMessages(res.data.messages);
           SetRoomID(res.data.ChatId);
+          setChatLoader(false)
           roomid = res.data.ChatId;
           socket.emit("joinRoom", res.data.ChatId);
         }
@@ -113,12 +119,13 @@ function Chathome() {
             <BsSearch className="absolute right-5 top-2 h-6 text-slate-400 w-6"/>
           </div>
           <div className="h-[82vh] overflow-y-scroll">
+            {users[0]?<>
             {users.map((v) => {
               if (myId != v._id) {
                 return (
                   <div
                     onClick={() => {
-                      SetuserID(v._id), SetUser(v);
+                      SetuserID(v._id), SetUser(v),setMessages([])
                     }}
                     className="w-full border-b-[1px] border-slate-300"
                   >
@@ -138,10 +145,10 @@ function Chathome() {
                   </div>
                 );
               }
-            })}
+            })}</>:isLoader?<div className="flex justify-center flex-grow">?<Loader size={40}/> </div>:''}
           </div>
         </div>
-        <div className="col-span-9 flex flex-col relative bg-yellow-200">
+        <div className="col-span-9 flex flex-col relative">
           {UserId ? (
             <>
               <div className="w-full flex h-fit row-span-1  bg-emerald-200">
@@ -159,8 +166,9 @@ function Chathome() {
               </div>
               <div
                 ref={msgScroll}
-                className="bg-emerald-100  flex flex-col flex-grow h-[70vh] overflow-y-scroll "
+                className={`${isLoader?'flex  justify-center items-center h-[70vh]':'bg-emerald-100  flex flex-col flex-grow h-[70vh] overflow-y-scroll '}`}
               >
+                {messages[0]?<>
                 {messages.map((text, i) => {
                   let reversedDate = null;
                   let prev = messages[i - 1]?.timestamp.slice(0, 10);
@@ -212,7 +220,7 @@ function Chathome() {
                       </div>
                     </>
                   );
-                })}
+                })}</>:chatLoader? <div className="flex justify-center pt-60 "><Loader size={40}/></div> :""}
 
                 {/*  */}
               </div>
