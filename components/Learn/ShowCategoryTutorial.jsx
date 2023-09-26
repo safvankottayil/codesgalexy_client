@@ -5,6 +5,7 @@ import CreateButton from "./CreateButton";
 import { userUrl } from "@/url";
 import Link from "next/link";
 import { MdStar } from "react-icons/md";
+import MobileFilter from "./MobileFilter";
 export async function generateStaticParams() {
   const res = await fetch(`${userUrl}/tutorialcategory`, {
     next: { revalidate: 1 },
@@ -27,14 +28,15 @@ async function ShowCategoryTutorial({ slag }) {
   console.log(Tutorials);
   return (
     <div className="bg-emerald-50 flex  w-full  min-h-[92vh] ">
-      <div className="flex flex-col w-full pl-10 pr-3 py-4">
-        <div className="flex w-full">
+      <div className="flex flex-col w-full  md:pl-10 pr-3 py-4">
+        <div className="flex md:flex-row flex-col w-full">
           <DocumentSearch />
-          <div className="flex flex-grow justify-end">
+          <div className="flex flex-grow justify-between md:justify-end">
+            <MobileFilter/>
             <CreateButton />
           </div>
         </div>
-        <div className="grid grid-cols-3 pl-3 gap-5 mt-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 pl-3 gap-5 mt-3">
           {Tutorials.map((tuto) => {
             const reviews = tuto?.reviews
               ? tuto.reviews.length == 0

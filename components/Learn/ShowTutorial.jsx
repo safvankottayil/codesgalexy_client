@@ -5,6 +5,7 @@ import ShowParagraphs from '../EditComponents/ShowParagraphs'
 import ShowList from '../EditComponents/ShowLIst'
 import ShowCode from '../EditComponents/ShowCode'
 import AddTutoriReview from '../AddTutorialReview/AddTutoriReview'
+import PagesButton from './PagesButton'
 
 async function GetTutorial(id,name){
     const res =await fetch(userUrl+`/page/${id}/${name}`,{next:{revalidate:10}})
@@ -14,7 +15,8 @@ async function  ShowTutorial({id,name}) {
   const {page}=await GetTutorial(id,name)
 
   return (
-    <div className='col-span-8'>
+    <div className='col-span-12 md:col-span-8'>
+      <PagesButton id={id}/>
     <div className='flex flex-col'>
       {page.Data.map((value)=>{
        if(value.type=='title'){

@@ -11,8 +11,8 @@ async function Getpage(id) {
 async function TutorialSidebar({ id }) {
   const { pages } = await Getpage(id);
   return (
-    <div className=" col-span-2">
-      <ul className="w-64 flex flex-col h-screen fixed bg-emerald-200 ">
+    <div className="w-0  md:col-span-2">
+      <ul className="w-0 overflow-hidden md:w-64 flex flex-col h-screen fixed bg-emerald-200 ">
         {pages.map((page) => {
           return (
             <Link className="" href={`/learn/tutorial/${id}/${page.name}`}>
