@@ -108,7 +108,7 @@ function Chathome() {
   return (
     <div className="bg-black h-screen pt-16 fixed flex w-full z-20">
       <div className="grid grid-cols-12 w-full">
-        <div className="col-span-3 flex flex-col  bg-emerald-100">
+        <div className="hidden  col-span-3 md:flex flex-col  bg-emerald-100">
           <div className="w-full relative px-2 border-b-[1px] border-slate-400 pb-2 mt-2">
             <input
               ref={search}
@@ -148,7 +148,7 @@ function Chathome() {
             })}</>:isLoader?<div className="flex justify-center flex-grow">?<Loader size={40}/> </div>:''}
           </div>
         </div>
-        <div className="col-span-9 flex flex-col relative">
+        <div className=" col-span-12 md:col-span-9 flex flex-col relative">
           {UserId ? (
             <>
               <div className="w-full flex h-fit row-span-1  bg-emerald-200">

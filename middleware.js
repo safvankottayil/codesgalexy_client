@@ -21,7 +21,7 @@ const response=await fetch(userUrl+'/Auth',{method:'GET',headers:{
 }})
 const res=await response.json()
 if(res.status){
-}else{
+}else{  
     return NextResponse.redirect('https://codesgalaxy.cloud?login='+true)
 }
 }else{
